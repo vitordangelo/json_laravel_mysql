@@ -1,0 +1,27 @@
+version: '3'
+
+services:
+  mysqljson:
+    image: ambientum/mysql
+    container_name: mysqljson
+    volumes:
+      - ./mysql:/var/lib/mysql
+    ports:
+      - "3306:3306"
+    environment:
+      - MYSQL_ROOT_PASSWORD=json
+      - MYSQL_PASSWORD=json
+      - MYSQL_DATABASE=json
+      - MYSQL_USER=json
+
+  appjson:
+    image: ambientum/php:7.1-nginx
+    container_name: appjson
+    volumes:
+      - .:/var/www/app
+    ports:
+      - "80:8080"
+    links:
+      - mysqljson
+    depends_on:
+      - mysqljson
